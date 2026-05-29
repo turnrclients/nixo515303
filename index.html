@@ -1,8 +1,4 @@
-
-<!DOCTYPE html>
-
-<html>
-<head>
+<html><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="" name="description"/>
@@ -32,33 +28,349 @@
                 font-family: var(--site-font) !important;
             }
         </style>
+<style>
+
+.seo-modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.seo-modal-box{
+    width:100%;
+    max-width:550px;
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    font-family:'Quicksand', sans-serif;
+}
+
+.seo-modal-header{
+    padding:18px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+}
+
+.seo-modal-header h3{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+}
+
+#closeSeoModal{
+    border:none;
+    background:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.seo-modal-body{
+    padding:22px;
+}
+
+.seo-modal-body label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.seo-modal-body textarea,
+.seo-modal-body input{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:18px;
+    outline:none;
+}
+
+.seo-modal-body textarea{
+    height:120px;
+    resize:none;
+}
+
+.seo-modal-footer{
+    padding:18px 22px;
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    border-top:1px solid #eee;
+}
+
+.seo-modal-footer button{
+    border:none;
+    padding:10px 22px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:600;
+    color: #FFF;
+  background: #3b3b3b;
+}
+
+#saveSeoUpdate{
+    background:linear-gradient(135deg,#e39a4e,#fb1b1b);
+    color:#fff;
+}
+
+</style>
+<style id="aiModalSpinnerStyles">
+        .ai-modal-content {
+            position: relative;
+        }
+
+        /* Overlay blocks everything */
+        .ai-modal-spinner {
+            position: absolute;
+            inset: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 20;
+            backdrop-filter: blur(1.5px);
+            pointer-events: auto; /* blocks modal */
+        }
+
+        /* Spinner itself should NOT intercept clicks */
+        .ai-modal-spinner * {
+            pointer-events: none;
+        }
+
+        /* Close button MUST be above overlay */
+        .ai-close {
+            align-self: flex-start;
+            margin-right: auto; /* push left */
+            margin-left: 0;
+            z-index: 30;
+        }
+
+
+        /* Spinner styling */
+        .ai-spinner {
+            width: 42px;
+            height: 42px;
+            border: 4px solid rgba(0,0,0,0.25);
+            border-top-color: #000;
+            border-radius: 50%;
+            animation: aiSpin 0.9s linear infinite;
+        }
+
+        @keyframes aiSpin {
+            to { transform: rotate(360deg); }
+        }
+
+    </style><style>
+.curtain-overlay {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  pointer-events: none;
+  z-index: 2;
+}
+</style><style id="custom-alert-style">
+        .custom-alert-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 99997;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-alert-backdrop.show {
+            opacity: 1;
+        }
+
+        .custom-alert-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%) scale(0.95);
+            opacity: 0;
+            z-index: 99998;
+            width: 100%;
+            max-width: 420px;
+            font-family: 'Quicksand', sans-serif;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+            pointer-events: none;
+        }
+
+        .custom-alert-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .custom-alert-content {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            text-align: center;
+            padding: 30px 26px;
+        }
+
+        .custom-alert-message {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .custom-alert-popup.success .custom-alert-message {
+            color: #28a745;
+        }
+
+        .custom-alert-popup.error .custom-alert-message {
+            color: #dc3545;
+        }
+
+        .custom-alert-ok-btn {
+            background: linear-gradient(135deg, #e39a4e, #fb1b1b);
+            color: #fff;
+            border: none;
+            padding: 10px 36px;
+            border-radius: 230px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-alert-ok-btn:hover {
+            opacity: 0.9;
+        }
+
+        body.custom-alert-open {
+            overflow: hidden;
+        }
+    </style>
+<style>
+
+.seo-modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.seo-modal-box{
+    width:100%;
+    max-width:550px;
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    font-family:'Quicksand', sans-serif;
+}
+
+.seo-modal-header{
+    padding:18px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+}
+
+.seo-modal-header h3{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+}
+
+#closeSeoModal{
+    border:none;
+    background:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.seo-modal-body{
+    padding:22px;
+}
+
+.seo-modal-body label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.seo-modal-body textarea,
+.seo-modal-body input{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:18px;
+    outline:none;
+}
+
+.seo-modal-body textarea{
+    height:120px;
+    resize:none;
+}
+
+.seo-modal-footer{
+    padding:18px 22px;
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    border-top:1px solid #eee;
+}
+
+.seo-modal-footer button{
+    border:none;
+    padding:10px 22px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:600;
+    color: #FFF;
+  background: #3b3b3b;
+}
+
+#saveSeoUpdate{
+    background:linear-gradient(135deg,#e39a4e,#fb1b1b);
+    color:#fff;
+}
+
+</style>
 </head>
-<body class="">
-<div id="wrapper">
-<div data-src="header.html" id="header"></div>
-<div id="mainPageContent">
-<section class="section-wrapper home-28">
+<body class="" style="">
+<div class="" id="wrapper" style="pointer-events: auto;">
+<div class="" data-src="header.html" id="header"></div>
+<div class="" id="mainPageContent">
+<section class="section-wrapper home-28" id="section-6hsf6azhq6x">
 <div class="container text-center">
 <h5 class="home-28-subtitle">High-Efficiency Systems</h5>
-<h2 class="home-28-title">Air Conditioning Advantage</h2>
+<h2 class="home-28-title">Air Conditioning </h2>
 <div class="row home-28-feature-wrap">
 <!-- Left Column -->
 <div class="col-sm-3 col-xs-6 home-28-feature text-center home-28-left">
 <div class="home-28-icon-box">
 <div class="home-28-icon"><i class="ri-flashlight-line"></i></div>
 <h4 class="home-28-feature-title">Energy Efficiency</h4>
-<p>Our units deliver optimal cooling with minimal energy use.</p>
+<p class="">Our units deliver optimal cooling with minimal energy use.</p>
 </div>
 <div class="home-28-icon-box">
 <div class="home-28-icon"><i class="ri-volume-mute-line"></i></div>
 <h4 class="home-28-feature-title">Quiet Operations</h4>
-<p>Designed for silent performance to ensure peaceful environments.</p>
+<p class="">Designed for silent performance to ensure peaceful environments.</p>
 </div>
 </div>
 <!-- Center Image -->
 <div class="col-sm-6 col-xs-12 home-28-image-wrap">
 <div class="home-28-image-circle">
-<img alt="Air Conditioner" class="img-responsive center-block" src="assets/images/home-28-bg.png"/>
+<img alt="Air Conditioner" class="img-responsive center-block updateImg" src="assets/images/home-28-bg.png?v=1780049124?v=1780049196"/>
 </div>
 </div>
 <!-- Right Column -->
@@ -66,22 +378,121 @@
 <div class="home-28-icon-box">
 <div class="home-28-icon"><i class="ri-layout-grid-line"></i></div>
 <h4 class="home-28-feature-title">Wide Selection</h4>
-<p>Choose from a variety of AC systems suited for every need.</p>
+<p class="">Choose from a variety of AC systems suited for every need.</p>
 </div>
 <div class="home-28-icon-box">
 <div class="home-28-icon"><i class="ri-tools-line"></i></div>
 <h4 class="home-28-feature-title">Maintenance &amp; Repairs</h4>
-<p>Expert support for installation, servicing, and repairs.</p>
+<p class="">Expert support for installation, servicing, and repairs.</p>
 </div>
 </div>
 </div>
-<a class="btn home-28-button" href="#">More About Services</a>
+<a class="btn home-28-button" href="#" style="cursor: pointer;">More About Services</a>
+</div>
+</section><section class="section-wrapper about-13" id="section-rk0gyl8bi4">
+<div class="container text-center">
+<h2 class="about-13-title">Why Choose Our Preschool</h2>
+<div class="row about-13-row">
+<div class="col-sm-6 col-md-3 about-13-feature">
+<div class="about-13-vertical-line"></div>
+<div class="about-13-icon-box yellow">
+<i class="ri-bear-smile-line"></i>
+</div>
+<h4 class="about-13-heading">Caring Environment</h4>
+<p class="about-13-text">We provide a warm, welcoming space where young children feel safe and supported
+					every day.</p>
+<button class="about-13-btn">Learn More</button>
+</div>
+<div class="col-sm-6 col-md-3 about-13-feature">
+<div class="about-13-vertical-line"></div>
+<div class="about-13-icon-box green">
+<i class="ri-restaurant-2-line"></i>
+</div>
+<h4 class="about-13-heading">Nutritious Meals</h4>
+<p class="about-13-text">Our preschool offers healthy, balanced meals designed to fuel active and
+					growing minds.</p>
+<button class="about-13-btn">Learn More</button>
+</div>
+<div class="col-sm-6 col-md-3 about-13-feature">
+<div class="about-13-vertical-line"></div>
+<div class="about-13-icon-box orange">
+<i class="ri-book-open-line"></i>
+</div>
+<h4 class="about-13-heading">Play-Based Learning</h4>
+<p class="about-13-text">Our curriculum encourages discovery and fun, helping children build a love of
+					learning early on.</p>
+<button class="about-13-btn">Learn More</button>
+</div>
+<div class="col-sm-6 col-md-3 about-13-feature">
+<div class="about-13-icon-box teal">
+<i class="ri-football-line"></i>
+</div>
+<h4 class="about-13-heading">Active Play</h4>
+<p class="about-13-text">We support physical development through daily activities that keep preschoolers
+					moving and engaged.</p>
+<button class="about-13-btn">Learn More</button>
+</div>
+</div>
+</div>
+</section><section class="section-wrapper about-24" id="section-0dulq8k02br">
+<div class="container">
+<div class="row">
+<!-- Left Text -->
+<div class="col-sm-5">
+<p class="about-24-subtitle">About Nutritius</p>
+<h2 class="about-24-title">Improving By The Inspir Healthy Living</h2>
+<p class="about-24-text">
+					There are many variations of passages of Lorem Ipsum available,
+					but the majority have suffered alteration in some form, by injected humour,
+					or randomised words which don't look even slightly believable.
+				</p>
+<h4 class="about-24-list-title">Nutrition Special Offers</h4>
+<div class="row about-24-list">
+<div class="col-xs-6">
+<p class=""><i class="ri-checkbox-circle-line"></i> Balance Body &amp; Mind</p>
+<p class=""><i class="ri-checkbox-circle-line"></i> Personalized Nutrition</p>
+<p class=""><i class="ri-checkbox-circle-line"></i> Child Nutrition</p>
+</div>
+<div class="col-xs-6">
+<p class=""><i class="ri-checkbox-circle-line"></i> Personal Coaching</p>
+<p class=""><i class="ri-checkbox-circle-line"></i> Sports Nutritionist</p>
+<p class=""><i class="ri-checkbox-circle-line"></i> Support &amp; Motivation</p>
+</div>
+</div>
+<a class="about-24-btn" href="#" style="cursor: pointer;">Read More</a>
+</div>
+<!-- Center Image -->
+<div class="col-sm-4 text-center">
+<img alt="Healthy Living" class="about-24-image img-responsive center-block updateImg" src="assets/images/about-24.jpg?v=1780049196"/>
+</div>
+<!-- Right Stats (no salad image) -->
+<div class="col-sm-3 text-center">
+<div class="about-24-stats">
+<div class="about-24-stat">
+<h3 class="">546+</h3>
+<p class="">Years Experience</p>
+</div>
+<div class="about-24-stat">
+<h3 class="">687+</h3>
+<p class="">Project Done</p>
+</div>
+<div class="about-24-stat">
+<h3 class="">368+</h3>
+<p class="">Happy Customers</p>
+</div>
+<div class="about-24-stat">
+<h3 class="">856+</h3>
+<p class="">Award Win</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </section>
 </div>
-<div data-src="footer.html" id="footer"></div>
+<div class="" data-src="footer.html" id="footer"></div>
 </div>
-<a class="whatsapp-float" href="https://wa.me/" target="_blank">
+<a class="whatsapp-float" href="https://wa.me/" style="cursor: pointer;" target="_blank">
 <i class="ri-whatsapp-line"></i>
 </a>
 <script src="assets/js/jquery.js"></script>
@@ -150,5 +561,4 @@
                         });
                     </script>
 <script src="assets/js/common_js/image_uploader.js"></script>
-</body>
-</html>
+</body></html>
